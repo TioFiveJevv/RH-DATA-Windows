@@ -13,7 +13,7 @@ Sin internet · Sin cuentas en línea · Tus datos se quedan en tu computadora.
 
 ### [⬇️ Descargar el instalador (v2.0)](https://drive.google.com/uc?export=download&id=10ZH28awuDv2EpeN-FVUoWLhoSoLhssKo)
 
-[🌐 Sitio web](https://tiofivejevv.github.io/RH-DATA-Windows/) · [Abrir en Google Drive](https://drive.google.com/file/d/10ZH28awuDv2EpeN-FVUoWLhoSoLhssKo/view?usp=sharing)
+[🌐 Sitio web](https://tiofivejevv.github.io/RH-DATA-Windows/) · [Abrir en Google Drive](https://drive.google.com/file/d/10ZH28awuDv2EpeN-FVUoWLhoSoLhssKo/view?usp=drive_link)
 
 [Español](#-español) · [English](#-english)
 
