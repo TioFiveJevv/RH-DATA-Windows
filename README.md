@@ -11,7 +11,9 @@ Sin internet · Sin cuentas en línea · Tus datos se quedan en tu computadora.
 ![Offline](https://img.shields.io/badge/funciona-sin%20internet-718096)
 ![Idioma](https://img.shields.io/badge/idioma-espa%C3%B1ol-c53030)
 
-### [⬇️ Descargar el instalador (última versión)](../../releases/latest)
+### [⬇️ Descargar el instalador (v2.0)](https://drive.google.com/uc?export=download&id=10ZH28awuDv2EpeN-FVUoWLhoSoLhssKo)
+
+[🌐 Sitio web](https://tiofivejevv.github.io/RH-DATA-Windows/) · [Abrir en Google Drive](https://drive.google.com/file/d/10ZH28awuDv2EpeN-FVUoWLhoSoLhssKo/view?usp=sharing)
 
 [Español](#-español) · [English](#-english)
 
@@ -97,9 +99,9 @@ La licencia PRO es un **código personal para una computadora**. Se obtiene abri
 
 ### 📥 Instalación
 
-1. Ve a **[Releases](../../releases/latest)** y descarga `RH_DATA_Instalador_2.0.exe`.
+1. Descarga **[`RH_DATA_Instalador_2.0.exe`](https://drive.google.com/uc?export=download&id=10ZH28awuDv2EpeN-FVUoWLhoSoLhssKo)** (26,3 MB, alojado en Google Drive; si no inicia la descarga, pulsa «Descargar» en la página de Drive).
 2. Ejecuta el instalador (asistente en español) y sigue los pasos. No necesitas instalar Python ni otros programas.
-3. Abre **RH DATA** desde el menú Inicio o el escritorio. Los usuarios iniciales están en el **manual de usuario** (`Manual_Usuario_RH_DATA.pdf`, también disponible en la página del release); cámbialos en *Configuración → Usuarios*.
+3. Abre **RH DATA** desde el menú Inicio o el escritorio. Los usuarios iniciales están en el **manual de usuario** (`Manual_Usuario_RH_DATA.pdf`); cámbialos en *Configuración → Usuarios*.
 
 **Requisitos:** Windows 10 u 11 (64 bits) · unos 60 MB de espacio libre · pantalla de 1366×768 o mayor.
 
@@ -109,7 +111,7 @@ La licencia PRO es un **código personal para una computadora**. Se obtiene abri
 Get-FileHash .\RH_DATA_Instalador_2.0.exe -Algorithm SHA256
 ```
 
-Debe coincidir con la huella que aparece en la página del release.
+Debe dar exactamente: `f154575b7a1b100630983498cc5928e204a04a5ee15410917e55c3de6efa3aa3`.
 
 > **ℹ️ Sobre la advertencia de Windows.** El instalador aún **no tiene firma digital de pago**, por lo que Windows SmartScreen o algunos antivirus pueden mostrar un aviso con programas nuevos. Si ocurre, pulsa **«Más información» → «Ejecutar de todas formas»**. El programa funciona sin conexión y no envía tus datos a ningún servidor.
 
@@ -158,7 +160,7 @@ The **free version is free forever** and includes the dashboard, applicants, int
 
 ### 📥 Installation
 
-1. Download `RH_DATA_Instalador_2.0.exe` from **[Releases](../../releases/latest)**.
+1. Download **[`RH_DATA_Instalador_2.0.exe`](https://drive.google.com/uc?export=download&id=10ZH28awuDv2EpeN-FVUoWLhoSoLhssKo)** (26.3 MB, hosted on Google Drive; if the download does not start, press "Download" on the Drive page).
 2. Run the installer and follow the wizard (no Python or other software needed).
 3. Launch **RH DATA** from the Start menu. Initial users are listed in the user manual (`Manual_Usuario_RH_DATA.pdf`); change them under *Settings → Users*.
 

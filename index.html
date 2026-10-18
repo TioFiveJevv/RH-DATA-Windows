@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RH DATA — Sistema de Recursos Humanos para Windows</title>
+<meta name="description" content="RH DATA: programa de Recursos Humanos para Windows. Postulantes, entrevistas, empleados, vacantes y nómina en tu computadora, sin internet. Versión gratis y licencia PRO.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="RH DATA — Sistema de Recursos Humanos para Windows">
+<meta property="og:description" content="Postulantes, entrevistas, empleados, vacantes y nómina en un solo programa. Funciona sin internet. Gratis + PRO.">
+<meta property="og:image" content="https://tiofivejevv.github.io/RH-DATA-Windows/screenshots/01_Panel_de_control.png">
+<meta name="theme-color" content="#14173f">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Concepto: el programa tiene un recorrido (postulante → nómina). La página lo sigue de arriba abajo,
+   con el azul marino y el índigo de la propia interfaz de RH DATA y el celeste de su icono. */
+:root{
+  --ink:#14173f;          /* marino de la barra lateral del programa */
+  --ink-2:#2b2f66;
+  --accent:#4f46e5;       /* índigo de los botones del programa */
+  --accent-ink:#ffffff;
+  --sky:#38a8f2;          /* celeste del icono */
+  --amber:#f0a020;        /* distintivo PRO */
+  --paper:#f5f6fc;
+  --surface:#ffffff;
+  --line:#dde0f2;
+  --muted:#565b86;
+  --hero-bg:#14173f;
+  --hero-fg:#ffffff;
+  --hero-muted:#c3c8f0;
+  --good:#168a45;
+  --shadow:0 18px 50px -18px rgba(20,23,63,.45);
+  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --f-body:"Public Sans","Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#e8eaff; --ink-2:#c9cdf5; --accent:#7b73ff; --sky:#4db4f5; --paper:#0d0f2b; --surface:#161a45; --line:#2a2f67; --muted:#a4a9d8;
+    --hero-bg:#090b21; --hero-fg:#ffffff; --hero-muted:#b4b9ea; --good:#44c27c; --shadow:0 18px 50px -18px rgba(0,0,0,.7);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#e8eaff; --ink-2:#c9cdf5; --accent:#7b73ff; --sky:#4db4f5; --paper:#0d0f2b; --surface:#161a45; --line:#2a2f67; --muted:#a4a9d8;
+  --hero-bg:#090b21; --hero-fg:#ffffff; --hero-muted:#b4b9ea; --good:#44c27c; --shadow:0 18px 50px -18px rgba(0,0,0,.7);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--sky);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1120px,100% - 32px);margin-inline:auto}
+h1,h2,h3{font-family:var(--f-display);line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h2{font-size:clamp(1.9rem,3.6vw,2.7rem);font-weight:800}
+h3{font-size:1.18rem;font-weight:600}
+p{margin:0}
+.eyebrow{font:600 .78rem/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.lead{font-size:1.12rem;color:var(--muted);max-width:62ch}
+section{padding-block:clamp(56px,8vw,96px)}
+
+/* ---------- barra superior ---------- */
+.bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--hero-bg) 94%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08)}
+.bar .wrap{display:flex;align-items:center;gap:20px;min-height:64px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--hero-fg);text-decoration:none;font:800 1.15rem var(--f-display)}
+.brand img{width:34px;height:34px;border-radius:9px;background:#fff}
+.nav{display:flex;gap:22px;margin-left:auto}
+.nav a{color:var(--hero-muted);text-decoration:none;font-weight:500;font-size:.95rem}
+.nav a:hover{color:#fff}
+.tools{display:flex;gap:10px;align-items:center}
+.lang{display:inline-flex;border:1px solid rgba(255,255,255,.25);border-radius:999px;overflow:hidden}
+.lang button{all:unset;cursor:pointer;padding:6px 12px;font:600 .8rem var(--f-body);color:var(--hero-muted)}
+.lang button[aria-pressed="true"]{background:#fff;color:#14173f}
+.btn{display:inline-flex;align-items:center;gap:10px;border-radius:12px;padding:14px 22px;font:700 1rem var(--f-body);text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .15s,background .15s}
+.btn svg{width:20px;height:20px;flex:none}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#4339d4;transform:translateY(-1px)}
+.btn-ghost{border-color:rgba(255,255,255,.35);color:#fff}
+.btn-ghost:hover{background:rgba(255,255,255,.1)}
+.btn-sm{padding:9px 16px;font-size:.9rem;border-radius:10px}
+@media (max-width:860px){.nav{display:none}.tools{margin-left:auto}}
+@media (max-width:480px){.bar .btn{display:none}}
+
+/* ---------- héroe ---------- */
+.hero{background:var(--hero-bg);color:var(--hero-fg);padding-block:clamp(48px,7vw,88px) clamp(56px,8vw,104px)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(28px,5vw,64px);align-items:center}
+.hero .eyebrow{color:var(--sky)}
+.hero h1{font-size:clamp(2.4rem,5.4vw,4.1rem);font-weight:800;margin-top:18px}
+.hero .lead{color:var(--hero-muted);margin-top:20px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.file-meta{margin-top:16px;font:500 .82rem var(--f-mono);color:var(--hero-muted)}
+.hint{margin-top:10px;font-size:.88rem;color:var(--hero-muted);max-width:52ch}
+.hint a{color:#fff}
+.win{border-radius:14px;overflow:hidden;background:#fff;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.12)}
+.win-top{display:flex;gap:7px;padding:10px 14px;background:#e9ebf7}
+.win-top i{width:10px;height:10px;border-radius:50%;background:#b9bedc}
+.win img{width:100%;aspect-ratio:16/9;object-fit:cover}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr}}
+
+/* ---------- cita ---------- */
+.quote{background:var(--surface);border-block:1px solid var(--line);padding-block:44px}
+.quote blockquote{margin:0 auto;max-width:860px;text-align:center;font:600 clamp(1.15rem,2.2vw,1.5rem)/1.45 var(--f-display);text-wrap:balance}
+.quote .wrap{text-align:center}
+.quote cite{display:block;margin-top:14px;font:500 .92rem var(--f-body);color:var(--muted)}
+
+/* ---------- recorrido ---------- */
+.route{list-style:none;margin:40px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;counter-reset:s}
+.route li{position:relative;padding:22px 18px 0 0;border-top:3px solid var(--line)}
+.route li::before{counter-increment:s;content:counter(s);position:absolute;top:-17px;left:0;width:31px;height:31px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font:700 .9rem var(--f-body)}
+.route li:last-child{border-top-color:var(--good)}
+.route li:last-child::before{background:var(--good)}
+.route h3{margin-top:10px}
+.route p{color:var(--muted);font-size:.95rem;margin-top:6px}
+@media (max-width:860px){
+  .route{grid-template-columns:1fr;gap:26px}
+  .route li{border-top:0;border-left:3px solid var(--line);padding:0 0 0 24px}
+  .route li::before{top:0;left:-17px}
+  .route li:last-child{border-left-color:var(--good)}
+}
+
+/* ---------- funciones ---------- */
+.features{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 56px;margin-top:40px}
+.feat{padding-block:22px;border-top:1px solid var(--line)}
+.feat h3{color:var(--ink)}
+.feat p{color:var(--muted);margin-top:6px;font-size:.98rem}
+@media (max-width:760px){.features{grid-template-columns:1fr}}
+
+/* ---------- capturas ---------- */
+.gallery{display:grid;grid-template-columns:230px minmax(0,1fr);gap:28px;margin-top:40px;align-items:start}
+.tabs{display:flex;flex-direction:column;gap:4px}
+.tabs button{all:unset;cursor:pointer;padding:10px 14px;border-radius:10px;font:600 .94rem var(--f-body);color:var(--muted);border-left:3px solid transparent}
+.tabs button:hover{background:var(--surface)}
+.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);border-left-color:var(--accent);box-shadow:0 1px 0 var(--line)}
+.tabs button:focus-visible{outline:3px solid var(--sky)}
+.shot{border-radius:14px;overflow:hidden;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow)}
+.shot img{width:100%;aspect-ratio:16/9;object-fit:contain;background:#fff}
+.shot figcaption{padding:12px 16px;font-size:.92rem;color:var(--muted);border-top:1px solid var(--line)}
+.note{font-size:.88rem;color:var(--muted);margin-top:14px}
+@media (max-width:860px){
+  .gallery{grid-template-columns:1fr}
+  .tabs{flex-direction:row;overflow-x:auto;padding-bottom:6px}
+  .tabs button{white-space:nowrap;border-left:0;border-bottom:3px solid transparent}
+  .tabs button[aria-selected="true"]{border-bottom-color:var(--accent)}
+}
+
+/* ---------- nómina ---------- */
+.payroll{background:var(--surface);border-block:1px solid var(--line)}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(28px,5vw,64px);align-items:center}
+.split .lead{margin-top:16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;padding:0;list-style:none}
+.chips li{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:6px 14px;font:600 .86rem var(--f-body)}
+.warn{margin-top:18px;font-size:.9rem;color:var(--muted)}
+@media (max-width:900px){.split{grid-template-columns:1fr}}
+
+/* ---------- gratis vs PRO ---------- */
+.tbl-wrap{margin-top:36px;overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{width:100%;border-collapse:collapse;min-width:560px}
+th,td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--line);font-size:.97rem}
+tr:last-child td{border-bottom:0}
+thead th{font:700 .82rem var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--paper)}
+th.pro{color:#8a5a00}
+:root[data-theme="dark"] th.pro{color:var(--amber)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) th.pro{color:var(--amber)}}
+.yes{color:var(--good);font-weight:700}
+.no{color:var(--muted)}
+.pro-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin:36px 0 0;padding:0;list-style:none;counter-reset:p}
+.pro-steps li{counter-increment:p;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--surface);font-size:.96rem}
+.pro-steps li::before{content:counter(p);display:block;font:800 1.5rem var(--f-display);color:var(--amber);margin-bottom:6px}
+@media (max-width:900px){.pro-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.pro-steps{grid-template-columns:1fr}}
+
+/* ---------- datos ---------- */
+.safe{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin-top:36px}
+.safe div{border-top:3px solid var(--sky);padding-top:16px}
+.safe p{color:var(--muted);margin-top:8px;font-size:.97rem}
+.safe code{font:500 .85rem var(--f-mono);background:var(--surface);border:1px solid var(--line);padding:1px 6px;border-radius:6px;overflow-wrap:anywhere}
+@media (max-width:860px){.safe{grid-template-columns:1fr}}
+
+/* ---------- instalar ---------- */
+.install{background:var(--hero-bg);color:var(--hero-fg)}
+.install .eyebrow{color:var(--sky)}
+.install h2{color:#fff;margin-top:14px}
+.install .lead{color:var(--hero-muted);margin-top:14px}
+.install-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,64px);margin-top:36px}
+.steps{margin:0;padding:0;list-style:none;counter-reset:i;display:grid;gap:18px}
+.steps li{counter-increment:i;display:grid;grid-template-columns:38px 1fr;gap:14px}
+.steps li::before{content:counter(i);display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;font:700 1rem var(--f-body)}
+.steps strong{color:#fff}
+.steps span{color:var(--hero-muted);display:block;font-size:.95rem}
+.box{border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:20px 22px;background:rgba(255,255,255,.04)}
+.box + .box{margin-top:16px}
+.box h3{color:#fff;font-size:1.05rem}
+.box p,.box li{color:var(--hero-muted);font-size:.95rem}
+.box ul{margin:10px 0 0;padding-left:18px}
+.hash{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.hash code{font:500 .78rem/1.5 var(--f-mono);color:#fff;background:rgba(0,0,0,.35);padding:8px 10px;border-radius:8px;overflow-wrap:anywhere;flex:1 1 280px}
+.hash button{all:unset;cursor:pointer;border:1px solid rgba(255,255,255,.35);color:#fff;padding:7px 14px;border-radius:8px;font:600 .85rem var(--f-body)}
+.hash button:hover{background:rgba(255,255,255,.12)}
+@media (max-width:860px){.install-grid{grid-template-columns:1fr}}
+
+/* ---------- cierre ---------- */
+.final{text-align:center}
+.final .cta{justify-content:center}
+.final .btn-ghost{border-color:var(--line);color:var(--ink)}
+.final .btn-ghost:hover{background:var(--surface)}
+.final .file-meta{color:var(--muted)}
+footer{background:var(--hero-bg);color:var(--hero-muted);padding-block:36px;font-size:.92rem}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px 32px;justify-content:space-between;align-items:center}
+footer a{color:#fff}
+footer .links{display:flex;gap:20px;flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="RH DATA"><img src="icon.png" alt="" width="34" height="34">RH DATA</a>
+    <nav class="nav" aria-label="Secciones">
+      <a href="#funciones" data-en="Features">Funciones</a>
+      <a href="#capturas" data-en="Screenshots">Capturas</a>
+      <a href="#pro" data-en="Free &amp; PRO">Gratis y PRO</a>
+      <a href="#instalar" data-en="Install">Instalar</a>
+    </nav>
+    <div class="tools">
+      <div class="lang" role="group" aria-label="Idioma / Language">
+        <button type="button" data-lang="es" aria-pressed="true">ES</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn btn-primary btn-sm js-download" href="https://drive.google.com/uc?export=download&id=10ZH28awuDv2EpeN-FVUoWLhoSoLhssKo" data-en="Download">Descargar</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ================= HÉROE ================= -->
+<div class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow" data-en="Windows 10 &amp; 11 · Free + PRO license">Windows 10 y 11 · Gratis + licencia PRO</span>
+      <h1 data-en="Your HR records, organized and fully offline.">Tu equipo de personal, en orden y sin internet.</h1>
+      <p class="lead" data-en="RH DATA follows each person from job application to payroll: applicants, interviews, employees, vacancies and pay in one Windows program. Everything stays on your computer.">RH DATA lleva a cada persona desde que aplica a una vacante hasta su nómina: postulantes, entrevistas, empleados, vacantes y pagos en un solo programa para Windows. Todo se guarda en tu computadora.</p>
+      <div class="cta">
+        <a class="btn btn-primary js-download" href="https://drive.google.com/uc?export=download&id=10ZH28awuDv2EpeN-FVUoWLhoSoLhssKo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M4 20h16"/></svg>
+          <span data-en="Download installer">Descargar instalador</span>
+        </a>
+        <a class="btn btn-ghost" href="#capturas" data-en="See screenshots">Ver capturas</a>
+      </div>
+      <p class="file-meta">RH_DATA_Instalador_2.0.exe · 26,3 MB · <span data-en="version 2.0">versión 2.0</span></p>
+      <p class="hint" data-en="The file is hosted on Google Drive. If the download does not start, press “Download” on the Drive page, or <a href='https://drive.google.com/file/d/10ZH28awuDv2EpeN-FVUoWLhoSoLhssKo/view?usp=sharing' rel='noopener'>open it in Google Drive</a>.">El archivo está en Google Drive. Si la descarga no inicia, pulsa «Descargar» en la página de Drive, o <a href="https://drive.google.com/file/d/10ZH28awuDv2EpeN-FVUoWLhoSoLhssKo/view?usp=sharing" rel="noopener">ábrelo en Google Drive</a>.</p>
+    </div>
+    <figure class="win" style="margin:0">
+      <div class="win-top" aria-hidden="true"><i></i><i></i><i></i></div>
+      <img src="screenshots/01_Panel_de_control.png" width="1366" height="768" alt="Panel de control de RH DATA con estadísticas de postulantes, entrevistados, empleados y vacantes" fetchpriority="high">
+    </figure>
+  </div>
+</div>
+
+<!-- ================= CITA ================= -->
+<div class="quote">
+  <div class="wrap">
+    <blockquote data-en="“A young Dominican who wants to make life easier for HR managers when they look for staff and keep their information, simply.”">«Joven dominicano que quiere facilitar el trabajo de los gerentes de recursos humanos a la hora de buscar personal y guardar su información de manera sencilla.»</blockquote>
+    <cite>Jordy Eugenio Vásquez · Tío Five YT · República Dominicana</cite>
+  </div>
+</div>
+
+<!-- ================= RECORRIDO ================= -->
+<section id="recorrido">
+  <div class="wrap">
+    <span class="eyebrow" data-en="One program, the whole path">Un programa, todo el recorrido</span>
+    <h2 style="margin-top:14px" data-en="From applicant to payroll, in the order it happens.">De postulante a nómina, en el orden en que ocurre.</h2>
+    <ol class="route">
+      <li>
+        <h3 data-en="Applicant">Postulante</h3>
+        <p data-en="Register data, photo and documents, and generate a résumé sheet in PDF.">Registra datos, foto y documentos, y genera su hoja de vida en PDF.</p>
+      </li>
+      <li>
+        <h3 data-en="Interview">Entrevista</h3>
+        <p data-en="Evaluate each candidate, compare results and keep a shortlist of the best.">Evalúa a cada candidato, compara resultados y arma tu lista corta de destacados.</p>
+      </li>
+      <li>
+        <h3 data-en="Approved">Aprobado</h3>
+        <p data-en="Confirm the hire with position, department and salary.">Confirma la contratación con puesto, departamento y salario.</p>
+      </li>
+      <li>
+        <h3 data-en="Employee">Empleado</h3>
+        <p data-en="Attendance, leave, vacations and disciplinary notes for your team.">Asistencia, permisos, vacaciones y amonestaciones de tu equipo.</p>
+      </li>
+      <li>
+        <h3 data-en="Payroll">Nómina</h3>
+        <p data-en="Salary, legal deductions and net pay, with a saved history.">Sueldo, descuentos de ley y neto, con historial guardado.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ================= FUNCIONES ================= -->
+<section id="funciones" style="padding-top:0">
+  <div class="wrap">
+    <span class="eyebrow" data-en="Everything included">Todo lo que incluye</span>
+    <h2 style="margin-top:14px" data-en="More than a list of people.">Más que una lista de personas.</h2>
+    <div class="features">
+      <div class="feat"><h3 data-en="Personnel file in PDF">Expediente en PDF</h3><p data-en="Attach ID, résumé and certificates, then print a single PDF with the person's full file.">Adjunta cédula, CV y certificados, y saca un PDF listo para imprimir con toda la información de la persona.</p></div>
+      <div class="feat"><h3 data-en="Job openings for social media">Vacantes para redes sociales</h3><p data-en="Create vacancies and generate PNG images with your company logo: square, vertical story and horizontal.">Crea vacantes y genera imágenes PNG con el logo de tu empresa: cuadrada, historia vertical y horizontal.</p></div>
+      <div class="feat"><h3 data-en="Departments and positions">Departamentos y cargos</h3><p data-en="Organize the company structure with salary ranges.">Organiza la estructura de la empresa con sus rangos salariales.</p></div>
+      <div class="feat"><h3 data-en="Interns">Pasantes</h3><p data-en="Register students in internships and track their hours.">Registra estudiantes en pasantía y controla sus horas.</p></div>
+      <div class="feat"><h3 data-en="Birthdays">Cumpleaños</h3><p data-en="Greeting cards and Windows reminders, even when the program is closed.">Tarjetas de felicitación y avisos de Windows, incluso con el programa cerrado.</p></div>
+      <div class="feat"><h3 data-en="Users and roles">Usuarios y roles</h3><p data-en="Manager, Administrator and User, each with their own permissions.">Gerente, Administrador y Usuario, cada uno con sus permisos.</p></div>
+      <div class="feat"><h3 data-en="Reports and exports">Reportes y exportación</h3><p data-en="Export to PDF and Excel whenever you need to share or archive.">Exporta a PDF y Excel cuando necesites compartir o archivar.</p></div>
+      <div class="feat"><h3 data-en="Backups in one click">Respaldos con un clic</h3><p data-en="Full backups with an integrity check. If something breaks, reinstall and recover the same data.">Copias completas con control de integridad. Si algo falla, reinstalas y recuperas los mismos datos.</p></div>
+      <div class="feat"><h3 data-en="Easy to learn">Fácil de aprender</h3><p data-en="Step-by-step interactive guide, a built-in searchable manual (also in PDF), 12 light and dark themes and adjustable font size.">Guía interactiva paso a paso, manual con buscador dentro del programa (y en PDF), 12 temas claros y oscuros y tamaño de letra ajustable.</p></div>
+      <div class="feat"><h3 data-en="Works offline">Funciona sin internet</h3><p data-en="No online account, no servers, no ads and no trackers.">Sin cuenta en línea, sin servidores, sin anuncios y sin rastreadores.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CAPTURAS ================= -->
+<section id="capturas" style="background:var(--paper);padding-top:0">
+  <div class="wrap">
+    <span class="eyebrow" data-en="Screenshots">Capturas de pantalla</span>
+    <h2 style="margin-top:14px" data-en="See it before you install it.">Míralo antes de instalarlo.</h2>
+    <div class="gallery">
+      <div class="tabs" role="tablist" aria-label="Capturas" id="tabs"></div>
+      <figure class="shot" style="margin:0">
+        <img id="shot-img" src="screenshots/01_Panel_de_control.png" width="1366" height="768" alt="Panel de control" decoding="async">
+        <figcaption id="shot-cap">Panel de control</figcaption>
+      </figure>
+    </div>
+    <p class="note" data-en="All screenshots use fictitious data. The program interface is in Spanish.">Todas las capturas usan datos ficticios.</p>
+  </div>
+</section>
+
+<!-- ================= NÓMINA ================= -->
+<section class="payroll" id="nomina">
+  <div class="wrap split">
+    <div>
+      <span class="eyebrow" data-en="Payroll">Nómina</span>
+      <h2 style="margin-top:14px" data-en="Payroll with Dominican rules.">Nómina con las reglas de República Dominicana.</h2>
+      <p class="lead" data-en="Calculate gross salary, SFS, AFP and income tax (ISR) deductions and net pay, by month or by fortnight (quincena), with legal caps and the 2026 minimum wage. Keep a history of every payroll.">Calcula el sueldo bruto, los descuentos de SFS, AFP e ISR y el neto, por mes o por quincena, con los topes de ley y el salario mínimo de 2026. Guarda el historial de cada nómina.</p>
+      <ul class="chips">
+        <li>SFS</li><li>AFP</li><li>ISR</li>
+        <li data-en="Monthly or quincena">Mensual o quincena</li>
+        <li data-en="Overtime">Horas extras</li>
+      </ul>
+      <p class="warn" data-en="Rules for 11 other countries in the Americas are included for reference only. Verify them with your accountant before paying.">Las reglas de otros 11 países de América se incluyen solo como referencia. Verifícalas con tu contador antes de pagar.</p>
+    </div>
+    <figure class="win" style="margin:0">
+      <div class="win-top" aria-hidden="true"><i></i><i></i><i></i></div>
+      <img src="screenshots/18_Nomina.png" width="1366" height="768" alt="Módulo de nómina automática de RH DATA" loading="lazy">
+    </figure>
+  </div>
+</section>
+
+<!-- ================= GRATIS Y PRO ================= -->
+<section id="pro">
+  <div class="wrap">
+    <span class="eyebrow" data-en="Free and PRO">Gratis y PRO</span>
+    <h2 style="margin-top:14px" data-en="Start free. Unlock everything once.">Empieza gratis. Desbloquea todo una sola vez.</h2>
+    <p class="lead" style="margin-top:16px" data-en="The free version is free forever. The PRO license is a one-time payment, permanent and tied to one computer.">La versión gratis es gratis para siempre. La licencia PRO es un pago único, permanente y para una computadora.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th data-en="Feature">Función</th><th data-en="Free">Gratis</th><th class="pro">PRO</th></tr></thead>
+        <tbody>
+          <tr><td data-en="Dashboard and statistics">Panel y estadísticas</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td data-en="Applicants, interviews, approved and employees">Postulantes, entrevistados, aprobados y empleados</td><td data-en="up to 15 records per list">hasta 15 registros por lista</td><td class="yes" data-en="unlimited">sin límite</td></tr>
+          <tr><td data-en="Departments / positions">Departamentos / cargos</td><td data-en="up to 5 / up to 10">hasta 5 / hasta 10</td><td class="yes" data-en="unlimited">sin límite</td></tr>
+          <tr><td data-en="Settings, backups and manual">Configuración, respaldos y manual</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td data-en="Automatic payroll">Nómina automática</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr><td data-en="Top candidates and interns">Mejores postulantes y pasantes</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr><td data-en="Vacancies with social media image">Vacantes con imagen para redes sociales</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr><td data-en="Birthdays and Windows notifications">Cumpleaños y notificaciones de Windows</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr><td data-en="Attached documents and personnel file in PDF">Documentos adjuntos y expediente en PDF</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr><td data-en="Users and roles, local network (LAN) server">Usuarios y roles, servidor en red local (LAN)</td><td class="no">—</td><td class="yes">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3 style="margin-top:44px" data-en="How to get PRO">Cómo conseguir PRO</h3>
+    <ol class="pro-steps" style="margin-top:16px">
+      <li data-en="In the program, open the <b>License</b> menu.">En el programa, abre el menú <b>Licencia</b>.</li>
+      <li data-en="Copy your computer's <b>ID</b> shown there.">Copia el <b>ID del equipo</b> que aparece ahí.</li>
+      <li data-en="Message me on <a href='https://www.facebook.com/jordy.vasquez.792' rel='noopener'>Facebook</a> and pay by bank transfer or PayPal.">Escríbeme por <a href="https://www.facebook.com/jordy.vasquez.792" rel="noopener">Facebook</a> y paga por transferencia bancaria o PayPal.</li>
+      <li data-en="Paste the personal code I send you. It is checked offline.">Pega el código personal que te envío. Se comprueba sin internet.</li>
+    </ol>
+    <p class="note" data-en="The code works only on that computer. The program never asks for card details.">El código funciona solo en esa computadora. El programa nunca pide datos de tarjeta.</p>
+  </div>
+</section>
+
+<!-- ================= DATOS SEGUROS ================= -->
+<section style="background:var(--surface);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <span class="eyebrow" data-en="Your data">Tus datos</span>
+    <h2 style="margin-top:14px" data-en="They live on your computer, and they stay there.">Viven en tu computadora y ahí se quedan.</h2>
+    <div class="safe">
+      <div>
+        <h3 data-en="Local storage">Guardado local</h3>
+        <p data-en="Data lives in <code>%LOCALAPPDATA%\RH_DATA</code> and is kept when you update, reinstall or uninstall.">Los datos viven en <code>%LOCALAPPDATA%\RH_DATA</code> y se conservan al actualizar, reinstalar o desinstalar.</p>
+      </div>
+      <div>
+        <h3 data-en="Automatic backups">Respaldos automáticos</h3>
+        <p data-en="One per day in <code>Documentos\RH_DATA_RESPALDOS</code>. Choose another folder, such as a USB drive or a synced folder.">Uno por día en <code>Documentos\RH_DATA_RESPALDOS</code>. Puedes elegir otra carpeta, como una USB o una carpeta sincronizada.</p>
+      </div>
+      <div>
+        <h3 data-en="No tracking">Sin rastreo</h3>
+        <p data-en="It does not collect or share personal data, has no ads, and email sending is off by default.">No recopila ni comparte datos personales, no tiene anuncios y el envío de correos viene desactivado de fábrica.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= INSTALAR ================= -->
+<section class="install" id="instalar">
+  <div class="wrap">
+    <span class="eyebrow" data-en="Install">Instalación</span>
+    <h2 data-en="Ready in three steps.">Listo en tres pasos.</h2>
+    <p class="lead" data-en="No Python and no extra software. The installer has a wizard in Spanish.">No necesitas Python ni otros programas. El instalador tiene un asistente en español.</p>
+    <div class="install-grid">
+      <div>
+      <ol class="steps">
+        <li><div><strong data-en="Download the installer">Descarga el instalador</strong><span data-en="Use the button below. The file is RH_DATA_Instalador_2.0.exe (26.3 MB).">Usa el botón de abajo. El archivo es RH_DATA_Instalador_2.0.exe (26,3 MB).</span></div></li>
+        <li><div><strong data-en="Run it and follow the wizard">Ejecútalo y sigue el asistente</strong><span data-en="If Windows shows a warning, see the note on the right.">Si Windows muestra una advertencia, mira la nota de la derecha.</span></div></li>
+        <li><div><strong data-en="Open RH DATA">Abre RH DATA</strong><span data-en="From the Start menu or the desktop. Initial users are listed in the user manual; change them under Settings → Users.">Desde el menú Inicio o el escritorio. Los usuarios iniciales están en el manual de usuario; cámbialos en Configuración → Usuarios.</span></div></li>
+      </ol>
+      <p style="margin-top:26px"><a class="btn btn-primary js-download" href="https://drive.google.com/uc?export=download&id=10ZH28awuDv2EpeN-FVUoWLhoSoLhssKo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M4 20h16"/></svg><span data-en="Download installer">Descargar instalador</span></a></p>
+      </div>
+      <div>
+        <div class="box">
+          <h3 data-en="About the Windows warning">Sobre la advertencia de Windows</h3>
+          <p data-en="The installer does not have a paid digital signature yet, so Windows SmartScreen or some antivirus tools may warn about new programs. Choose <b>“More info” → “Run anyway”</b>. RH DATA works offline and does not send your data anywhere.">El instalador aún no tiene firma digital de pago, por lo que Windows SmartScreen o algunos antivirus pueden mostrar un aviso con programas nuevos. Pulsa <b>«Más información» → «Ejecutar de todas formas»</b>. RH DATA funciona sin conexión y no envía tus datos a ningún servidor.</p>
+        </div>
+        <div class="box">
+          <h3 data-en="Requirements">Requisitos</h3>
+          <ul>
+            <li data-en="Windows 10 or 11 (64-bit)">Windows 10 u 11 (64 bits)</li>
+            <li data-en="About 60 MB of free disk space">Unos 60 MB de espacio libre</li>
+            <li data-en="Screen of 1366×768 or larger">Pantalla de 1366×768 o mayor</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3 data-en="Verify your download (optional)">Verifica tu descarga (opcional)</h3>
+          <p data-en="In PowerShell run <code>Get-FileHash .\RH_DATA_Instalador_2.0.exe -Algorithm SHA256</code>. The result must match:">En PowerShell ejecuta <code>Get-FileHash .\RH_DATA_Instalador_2.0.exe -Algorithm SHA256</code>. El resultado debe coincidir con:</p>
+          <div class="hash">
+            <code id="sha">f154575b7a1b100630983498cc5928e204a04a5ee15410917e55c3de6efa3aa3</code>
+            <button type="button" id="copy-sha" data-en="Copy">Copiar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CIERRE ================= -->
+<section class="final">
+  <div class="wrap">
+    <h2 data-en="Order your HR work today.">Ordena tu trabajo de personal hoy.</h2>
+    <p class="lead" style="margin:16px auto 0" data-en="Free to start. No account, no internet, no credit card.">Gratis para empezar. Sin cuenta, sin internet y sin tarjeta.</p>
+    <div class="cta">
+      <a class="btn btn-primary js-download" href="https://drive.google.com/uc?export=download&id=10ZH28awuDv2EpeN-FVUoWLhoSoLhssKo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M4 20h16"/></svg>
+        <span data-en="Download installer">Descargar instalador</span>
+      </a>
+      <a class="btn btn-ghost" href="https://drive.google.com/file/d/10ZH28awuDv2EpeN-FVUoWLhoSoLhssKo/view?usp=sharing" rel="noopener" data-en="Open in Google Drive">Abrir en Google Drive</a>
+    </div>
+    <p class="file-meta">RH_DATA_Instalador_2.0.exe · 26,3 MB · Windows 10/11 (64 <span data-en="bit">bits</span>)</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Jordy Eugenio Vásquez · Tío Five YT · <span data-en="All rights reserved.">Todos los derechos reservados.</span></div>
+    <div class="links">
+      <a href="https://www.youtube.com/@Tiofive2" rel="noopener">YouTube</a>
+      <a href="https://www.facebook.com/jordy.vasquez.792" rel="noopener">Facebook</a>
+      <a href="https://github.com/TioFiveJevv/RH-DATA-Windows" rel="noopener">GitHub</a>
+      <a href="https://github.com/TioFiveJevv/RH-DATA-Windows/issues" rel="noopener" data-en="Support">Soporte</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var SHOTS=[
+    ["01_Panel_de_control.png","Panel de control","Dashboard"],
+    ["02_Postulantes.png","Postulantes","Applicants"],
+    ["03_Registrar_postulante.png","Registro de un postulante","Registering an applicant"],
+    ["05_Entrevistados.png","Entrevistados","Interviews"],
+    ["07_Mejores_postulantes.png","Mejores postulantes","Top candidates"],
+    ["09_Empleados.png","Empleados","Employees"],
+    ["13_Vacantes.png","Vacantes","Job openings"],
+    ["14_Vacante_para_redes_sociales.png","Imagen de vacante para redes sociales","Social media job image"],
+    ["18_Nomina.png","Nómina","Payroll"],
+    ["19_Guia_interactiva_1.png","Guía interactiva paso a paso","Step-by-step interactive guide"],
+    ["22_Tema_oscuro.png","Tema oscuro (hay 12 temas)","Dark theme (12 themes available)"],
+    ["23_Respaldo_y_recuperacion.png","Respaldo y recuperación","Backup and recovery"],
+    ["25_Manual_de_usuario.png","Manual de usuario con buscador","User manual with search"],
+    ["28_Documentos_y_expediente_PDF.png","Documentos y expediente en PDF","Documents and personnel file in PDF"]
+  ];
+  var lang="es", current=0;
+  var tabs=document.getElementById("tabs"), img=document.getElementById("shot-img"), cap=document.getElementById("shot-cap");
+
+  function show(i){
+    current=i;
+    img.src="screenshots/"+SHOTS[i][0];
+    var t=SHOTS[i][lang==="en"?2:1];
+    img.alt=t; cap.textContent=t;
+    Array.prototype.forEach.call(tabs.children,function(b,k){ b.setAttribute("aria-selected",k===i?"true":"false"); b.tabIndex=k===i?0:-1; });
+  }
+  SHOTS.forEach(function(s,i){
+    var b=document.createElement("button");
+    b.type="button"; b.setAttribute("role","tab"); b.textContent=s[1];
+    b.addEventListener("click",function(){ show(i); });
+    b.addEventListener("keydown",function(e){
+      var d=(e.key==="ArrowDown"||e.key==="ArrowRight")?1:(e.key==="ArrowUp"||e.key==="ArrowLeft")?-1:0;
+      if(d){ e.preventDefault(); var n=(current+d+SHOTS.length)%SHOTS.length; show(n); tabs.children[n].focus(); }
+    });
+    tabs.appendChild(b);
+  });
+  show(0);
+
+  function setLang(l){
+    lang=l;
+    document.documentElement.lang=l;
+    document.querySelectorAll("[data-en]").forEach(function(el){
+      if(!el.hasAttribute("data-es")) el.setAttribute("data-es",el.innerHTML);
+      el.innerHTML = l==="en" ? el.getAttribute("data-en") : el.getAttribute("data-es");
+    });
+    document.querySelectorAll(".lang button").forEach(function(b){ b.setAttribute("aria-pressed",b.getAttribute("data-lang")===l?"true":"false"); });
+    Array.prototype.forEach.call(tabs.children,function(b,k){ b.textContent=SHOTS[k][l==="en"?2:1]; });
+    show(current);
+    document.title = l==="en" ? "RH DATA — HR Management System for Windows" : "RH DATA — Sistema de Recursos Humanos para Windows";
+    try{ localStorage.setItem("rhdata-lang",l); }catch(e){}
+  }
+  document.querySelectorAll(".lang button").forEach(function(b){ b.addEventListener("click",function(){ setLang(b.getAttribute("data-lang")); }); });
+
+  var saved=null;
+  try{ saved=localStorage.getItem("rhdata-lang"); }catch(e){}
+  var pref = saved || ((navigator.language||"es").toLowerCase().indexOf("en")===0 ? "en" : "es");
+  if(pref==="en") setLang("en");
+
+  var copyBtn=document.getElementById("copy-sha"), sha=document.getElementById("sha");
+  copyBtn.addEventListener("click",function(){
+    function done(){ var o=copyBtn.textContent; copyBtn.textContent = lang==="en" ? "Copied" : "Copiado"; setTimeout(function(){ copyBtn.textContent = lang==="en" ? "Copy" : "Copiar"; },1600); }
+    function fallback(){ var r=document.createRange(); r.selectNodeContents(sha); var s=window.getSelection(); s.removeAllRanges(); s.addRange(r); }
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(sha.textContent.trim()).then(done,fallback); } else { fallback(); }
+  });
+})();
+</script>
+</body>
+</html>
